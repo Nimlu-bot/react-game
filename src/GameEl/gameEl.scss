@@ -39,24 +39,38 @@ transform-style: preserve-3d;
   // box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
   backface-visibility: hidden;
 }
+.back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotateY(180deg);
+	background: rgb(13, 160, 20);
+}
 .front {
   display: flex;
   align-items: center;
   justify-content: center;
-  
 	background: #FEC606;
 }
-.back {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-	background: rgb(13, 160, 20);
+
+//  .flipped{
+// 	.el {
+// 		transform: rotateY(180deg);}
+// 		.back {
+// 			transform: rotateY(180deg);
+// 		}
+//  }
+// .el-container:hover .el {
+//   transform: rotateY(180deg);
+// }
+// .back {
+//   transform: rotateY(180deg);
+// }
+.front__rotated {
+	transform: rotateY(180deg);
 }
- 
-.el-container:hover .el {
-  transform: rotateY(180deg);
+.back__rotated {
+	transform: rotateY(360deg);
 }
-.back {
-  transform: rotateY(180deg);
-}
+
+

@@ -1,7 +1,7 @@
 import React from "react";
 import "./footer.scss";
-import logo from "../assets/rs_school_js.svg";
-import gitLogo from "../assets/github.svg";
+import logo from "../assets/img/rs_school_js.svg";
+import gitLogo from "../assets/img/github.svg";
 
 export default function Footer() {
   return (
