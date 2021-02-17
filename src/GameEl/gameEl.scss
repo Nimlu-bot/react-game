@@ -1,0 +1,62 @@
+$color-element: rgb(13, 160, 20);
+
+// .el-container{
+// 	width: 160px;
+// height: 160px;
+// background-color: $color-element;
+// margin: 2px;
+// display: flex;
+// justify-content: center;
+// align-items: center;
+// border-radius: 5px;
+// &:hover{
+// 	transform: scale(0.9);
+// 	transition: all .3s ;
+// }
+// }
+.el-container {
+	display: inline-block;
+	margin: 0 auto;
+	// padding: 0 12px;
+	perspective: 900px;
+	text-align: center;
+}
+.el {
+position: relative;
+width: 160px;
+height: 160px;
+transition: all 0.6s ease;
+transform-style: preserve-3d;
+}
+.front, .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 160px;
+  border-radius: 5px;
+  color: white;
+  // box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+  backface-visibility: hidden;
+}
+.front {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+	background: #FEC606;
+}
+.back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+	background: rgb(13, 160, 20);
+}
+ 
+.el-container:hover .el {
+  transform: rotateY(180deg);
+}
+.back {
+  transform: rotateY(180deg);
+}

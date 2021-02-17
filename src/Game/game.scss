@@ -1,0 +1,15 @@
+$color-field: rgb(13, 77, 160);
+
+.game{
+	width: 496px;
+	height: 496px;
+	margin: 0 auto;
+	background-color: $color-field;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 2px;
+	border-radius: 5px;
+	
+	}
+
+
