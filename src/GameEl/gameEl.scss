@@ -36,6 +36,9 @@ transform-style: preserve-3d;
   height: 160px;
   border-radius: 5px;
   color: white;
+	transition: all 0.6s ease;
+transform-style: preserve-3d;
+font-size: 100px;
   // box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
   backface-visibility: hidden;
 }
