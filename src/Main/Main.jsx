@@ -1,8 +1,8 @@
 import React from 'react';
 import './main.scss';
 import Game from '../GameField/GameField';
-import click from '../assets/audio/click.mp3';
 import Buttons from '../Buttons/Buttons';
+import Audio from '../Audio/Audio';
 
 // let ctx = new AudioContext();
 // let out = ctx.destination;
@@ -22,17 +22,17 @@ export default class Main extends React.Component {
             this.state = {
                 history: historyStor,
                 isNextX: (historyStor.length - 1) % 2 === 0,
-                stepNumber: historyStor.length - 1
+                stepNumber: historyStor.length - 1,
             };
         } else {
             this.state = {
                 history: [
                     {
-                        squares: Array(9).fill(null)
-                    }
+                        squares: Array(9).fill(null),
+                    },
                 ],
                 isNextX: true,
-                stepNumber: 0
+                stepNumber: 0,
             };
         }
     }
@@ -50,11 +50,11 @@ export default class Main extends React.Component {
         this.setState({
             history: history.concat([
                 {
-                    squares: squares
-                }
+                    squares: squares,
+                },
             ]),
             stepNumber: history.length,
-            isNextX: !this.state.isNextX
+            isNextX: !this.state.isNextX,
         });
 
         //this.updateLocal();
@@ -64,7 +64,7 @@ export default class Main extends React.Component {
     jumpTo(step) {
         this.setState({
             stepNumber: step,
-            isNextX: step % 2 === 0
+            isNextX: step % 2 === 0,
         });
     }
     updateLocal(key) {
@@ -72,7 +72,6 @@ export default class Main extends React.Component {
             localStorage.setItem('currentTurn', JSON.stringify(this.state.history));
         }
         if (key === 'score') {
-           
             const scoreStor = localStorage.getItem('scores')
                 ? JSON.parse(localStorage.getItem('scores'))
                 : Array(10).fill(null);
@@ -87,8 +86,7 @@ export default class Main extends React.Component {
                     scores.push({ winner: 'X', turn: this.state.stepNumber });
                     localStorage.setItem('scores', JSON.stringify(scores));
                 }
-            } 
-            
+            }
         }
         if (key === 'draw') {
             const scoreStor = localStorage.getItem('scores')
@@ -107,9 +105,9 @@ export default class Main extends React.Component {
         this.setState({
             history: [
                 {
-                    squares: Array(9).fill(null)
-                }
-            ]
+                    squares: Array(9).fill(null),
+                },
+            ],
         });
         //this.updateLocal();
     }
@@ -138,8 +136,7 @@ export default class Main extends React.Component {
         //       isNextX: !this.state.isNextX
         //   });
     }
-
-    render() {
+    updateStatus() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
@@ -147,7 +144,6 @@ export default class Main extends React.Component {
 
         if (winner) {
             status = 'Выиграл ' + winner;
-            // const rezult={winner,turn:history.length - 1}
             this.updateLocal('score');
             console.log('hi');
         } else {
@@ -159,13 +155,39 @@ export default class Main extends React.Component {
             }
         }
         this.updateLocal('currentTurn');
+        return status;
+    }
+
+    render() {
+        const history = this.state.history;
+        const current = history[this.state.stepNumber];
+        // const winner = calculateWinner(current.squares);
+        // let status;
+
+        // if (winner) {
+        //     status = 'Выиграл ' + winner;
+        //     // const rezult={winner,turn:history.length - 1}
+        //     this.updateLocal('score');
+        //     console.log('hi');
+        // } else {
+        //     if (history.length < 10) {
+        //         status = 'Следующий ход: ' + (this.state.isNextX ? 'X' : 'O');
+        //     } else {
+        //         status = 'Ничья';
+        //         this.updateLocal('draw');
+        //     }
+        // }
+        // this.updateLocal('currentTurn');
 
         return (
-            <div className="main">
-                <div className="turn"> turn {history.length - 1} </div>
-                <Game squares={current.squares} onClick={(i) => this.handleClick(i)} />
-                <div className="status">{status}</div>
-                <Buttons onReset={() => this.resetGame()} onAuto={() => this.autoPlay()} />
+            <div className='wrapper'>
+                <div className='main'>
+                    <div className='turn'> turn {history.length - 1} </div>
+                    <Game squares={current.squares} onClick={(i) => this.handleClick(i)} />
+                    <div className='status'>{this.updateStatus()}</div>
+                    <Buttons onReset={() => this.resetGame()} onAuto={() => this.autoPlay()} />
+                </div>
+                <Audio />
             </div>
         );
     }
@@ -180,7 +202,7 @@ function calculateWinner(squares) {
         [1, 4, 7],
         [2, 5, 8],
         [0, 4, 8],
-        [2, 4, 6]
+        [2, 4, 6],
     ];
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
