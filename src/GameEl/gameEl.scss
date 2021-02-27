@@ -1,5 +1,5 @@
 $color-element: rgb(13, 160, 20);
-
+@import "~bootstrap/scss/bootstrap";
 // .el-container{
 // 	width: 160px;
 // height: 160px;
@@ -48,13 +48,14 @@ $color-element: rgb(13, 160, 20);
     align-items: center;
     justify-content: center;
     transform: rotateY(180deg);
-    background: rgb(13, 160, 20);
+    background: $blue-600;
 }
 .front {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fec606;
+    background: $warning
+		;
 }
 
 //  .flipped{

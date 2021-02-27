@@ -5,10 +5,9 @@ import AudioProc from './AudioProc';
 import Sound from './SoundProc';
 import './settings.scss';
 
-export default function Audio() {
+export default function Audio(props) {
     const [play, setPlay] = useState(false);
     const [mute, setMute] = useState(false);
-    const [playSound, setPlaySound] = useState(false);
     const [muteSound, setMuteSound] = useState(false);
     const [volume, setVolume] = useState(1);
     const [pan, setPan] = useState(0);
@@ -35,32 +34,33 @@ export default function Audio() {
         setPanSound(value);
         Sound.setPan(value);
     };
-    useEffect(() => {
-        AudioProc.init();
-        //  Sound.init();
-    }, []);
+    // useEffect(() => {
+    //     AudioProc.init();
+    //     //  Sound.init();
+    // }, []);
+
     return (
-        <div className='audio-wrapper'>
-            <audio controls src={`${muz}`} id='muz'></audio>
+        <div className={`audio-wrapper ${props.show===true ? '' :'hided' }`}>
+            {/* <audio controls src={`${muz}`} id='muz'></audio> */}
             {/* <audio controls src={`${click}`} id="click"></audio> */}
-            <button
-                className='btn btn-outline-success btn-sm'
-                onClick={() => {
-                    if (!play) {
-                        AudioProc.play('muz');
-                        setPlay(true);
-                    } else {
-                        AudioProc.pause('muz');
-                        setPlay(false);
-                    }
-                }}
+            {/* <button
+                className='btn btn-outline-primary btn-sm'
+                // onClick={() => {
+                //     if (!play) {
+                //         AudioProc.play('muz');
+                //         setPlay(true);
+                //     } else {
+                //         AudioProc.pause('muz');
+                //         setPlay(false);
+                //     }
+                // }}
             >
                 play
-            </button>
-            <p className='music-title'>Music</p>
+            </button> */}
+						<div className='music-wrapper'>
+            <div className='music-title'>Music</div>
             <button
-                className='btn btn-outline-success btn-sm'
-                data-bs-toggle='button'
+                className='btn btn-outline-primary btn-sm'
                 onClick={() => {
                     if (!mute) {
                         AudioProc.setVolume(0);
@@ -70,21 +70,12 @@ export default function Audio() {
                         setMute(false);
                     }
                 }}
-            >
-                <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    width='16'
-                    height='16'
-                    fill='currentColor'
-                    class='bi bi-volume-mute-fill'
-                    viewBox='0 0 16 16'
-                >
-                    <path d='M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zm7.137 2.096a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z' />
-                </svg>
+            ><i className={`bi ${!mute ? 'bi-volume-mute-fill' : 'bi-volume-down-fill'}`}></i> 
             </button>
+						</div>
             <div className='audio-container'>
                 <div className='volume-container'>
-                    <span>G</span>
+                    <div className='text'>-</div>
                     <input
                         type='range'
                         id='volume'
@@ -95,9 +86,11 @@ export default function Audio() {
                         className='input-slider'
                         onChange={changeVolume}
                     />
+										<div className='text'>+</div>
                 </div>
+
                 <div className='panner-container'>
-                    <span>L</span>
+                    <span className='text'>L</span>
                     <input
                         type='range'
                         id='panner'
@@ -108,15 +101,13 @@ export default function Audio() {
                         className='input-slider'
                         onChange={changePan}
                     />
-                    <span>R</span>
+                    <span className='text'>R</span>
                 </div>
             </div>
-
-            <div className='audio-container'>
-                <p className='sound-title'>Sound</p>
-                <div className='volume-container'>
-                    <button
-                        className='btn btn-outline-success btn-sm'
+						<div className='music-wrapper'>
+						<div className='music-title'>Sound</div>
+						<button
+                        className='btn btn-outline-primary btn-sm'
                         onClick={() => {
                             if (!muteSound) {
                                 Sound.setVolume(0);
@@ -126,20 +117,13 @@ export default function Audio() {
                                 setMuteSound(false);
                             }
                         }}
-                    >
-                        <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            width='16'
-                            height='16'
-                            fill='currentColor'
-                            className='bi bi-volume-mute-fill'
-                            viewBox='0 0 16 16'
-                        >
-                            <path d='M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zm7.137 2.096a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0z' />
-                        </svg>
+                    ><i className={`bi ${!muteSound ? 'bi-volume-mute-fill' : 'bi-volume-down-fill'}`}></i> 
                     </button>
-                    <span>G</span>
-
+						</div>
+            <div className='audio-container'>
+                
+                <div className='volume-container'>
+                    <div className='text'>-</div>
                     <input
                         type='range'
                         id='volume'
@@ -150,9 +134,10 @@ export default function Audio() {
                         className='input-slider'
                         onChange={changeVolumeSound}
                     />
+										 <div className='text'>+</div>
                 </div>
                 <div className='panner-container'>
-                    <span>L</span>
+                    <span className='text'>L</span>
                     <input
                         type='range'
                         id='panner'
@@ -163,9 +148,13 @@ export default function Audio() {
                         className='input-slider'
                         onChange={changePanSound}
                     />
-                    <span>R</span>
+                    <span className='text'>R</span>
                 </div>
             </div>
+						<button 
+						className='btn btn-outline-primary btn-sm'
+						onClick={()=>{props.onClose()}}
+						>close</button>
         </div>
     );
 }

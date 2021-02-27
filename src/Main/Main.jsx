@@ -3,18 +3,13 @@ import './main.scss';
 import Game from '../GameField/GameField';
 import Buttons from '../Buttons/Buttons';
 import Audio from '../Audio/Audio';
-
-// let ctx = new AudioContext();
-// let out = ctx.destination;
-// let gain = ctx.createGain();
-// let sound = ctx.createMediaElementSource(click);
-
-// sound.connect(gain);
-// gain.connect(out);
+import Stat from '../Stat/Stat';
 
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
+				this.game = React.createRef();
+				this.end=true;
         const historyStor = localStorage.getItem('currentTurn')
             ? JSON.parse(localStorage.getItem('currentTurn'))
             : null;
@@ -23,6 +18,8 @@ export default class Main extends React.Component {
                 history: historyStor,
                 isNextX: (historyStor.length - 1) % 2 === 0,
                 stepNumber: historyStor.length - 1,
+								settings:false,
+								stat:false
             };
         } else {
             this.state = {
@@ -33,6 +30,8 @@ export default class Main extends React.Component {
                 ],
                 isNextX: true,
                 stepNumber: 0,
+								settings:false,
+								stat:false
             };
         }
     }
@@ -41,8 +40,7 @@ export default class Main extends React.Component {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-        // ctx.resume();
-        // sound.mediaElement.play();
+        
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
@@ -56,9 +54,6 @@ export default class Main extends React.Component {
             stepNumber: history.length,
             isNextX: !this.state.isNextX,
         });
-
-        //this.updateLocal();
-        // console.log(this.state.history);
     }
 
     jumpTo(step) {
@@ -109,7 +104,7 @@ export default class Main extends React.Component {
                 },
             ],
         });
-        //this.updateLocal();
+				this.end=false;
     }
 
     autoPlay() {
@@ -123,18 +118,6 @@ export default class Main extends React.Component {
         setTimeout(() => this.handleClick(7), 7000);
         setTimeout(() => this.handleClick(8), 8000);
         setTimeout(() => this.handleClick(6), 9000);
-
-        // const history = this.state.history.slice(0, 1);
-        //   const squares = [null, null, 'X', null, null, null, null, null, null];
-        //   this.setState({
-        //       history: history.concat([
-        //           {
-        //               squares: squares
-        //           }
-        //       ]),
-        //       stepNumber: history.length,
-        //       isNextX: !this.state.isNextX
-        //   });
     }
     updateStatus() {
         const history = this.state.history;
@@ -143,51 +126,70 @@ export default class Main extends React.Component {
         let status;
 
         if (winner) {
-            status = 'Выиграл ' + winner;
+            status = 'Winner ' + winner;
+						if(!this.end){
             this.updateLocal('score');
-            console.log('hi');
+					}
+						this.end=true;
         } else {
             if (history.length < 10) {
-                status = 'Следующий ход: ' + (this.state.isNextX ? 'X' : 'O');
+                status = 'Next move: ' + (this.state.isNextX ? 'X' : 'O');
             } else {
-                status = 'Ничья';
-                this.updateLocal('draw');
+                status = 'Draw';
+								if(!this.end){
+                this.updateLocal('draw');}
+								this.end=true;
             }
         }
         this.updateLocal('currentTurn');
         return status;
     }
 
+		settings(){
+		this.setState(prevState => ({
+			settings: !prevState.settings
+		}))
+		}
+		stat(){
+			console.log("stat")
+			this.setState(prevState => ({
+				stat: !prevState.stat
+			}))
+			}
+
+		fullScrean(){
+			console.log(this.main)
+this.game.current.requestFullscreen();
+		}
+
+		componentDidMount(){
+			this.end=false;
+		}
+
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
-        // const winner = calculateWinner(current.squares);
-        // let status;
-
-        // if (winner) {
-        //     status = 'Выиграл ' + winner;
-        //     // const rezult={winner,turn:history.length - 1}
-        //     this.updateLocal('score');
-        //     console.log('hi');
-        // } else {
-        //     if (history.length < 10) {
-        //         status = 'Следующий ход: ' + (this.state.isNextX ? 'X' : 'O');
-        //     } else {
-        //         status = 'Ничья';
-        //         this.updateLocal('draw');
-        //     }
-        // }
-        // this.updateLocal('currentTurn');
-
+				
         return (
             <div className='wrapper'>
-                <div className='main'>
-                    <div className='turn'> turn {history.length - 1} </div>
-                    <Game squares={current.squares} onClick={(i) => this.handleClick(i)} />
+                <div   className='main'>
+									<div ref={this.game} className ='game-field'>
+                    <div className='turn '> Turn {history.length - 1} </div>
+                    <Game  squares={current.squares} onClick={(i) => this.handleClick(i)} />
                     <div className='status'>{this.updateStatus()}</div>
-                    <Buttons onReset={() => this.resetGame()} onAuto={() => this.autoPlay()} />
+										</div>
+                    <Buttons 
+										onReset={() => this.resetGame()}
+										onAuto={() => this.autoPlay()} 
+										onSettings={()=>this.settings()}
+										onFullScrean={()=>this.fullScrean()}
+										onStat={()=>this.stat()} 
+											/>
                 </div>
-                <Audio />
+                <Audio show={this.state.settings}
+								onClose={()=>this.settings()}/>
+								<Stat show={this.state.stat}
+								onClose={()=>this.stat()}/>
             </div>
         );
     }

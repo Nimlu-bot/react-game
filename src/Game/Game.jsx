@@ -3,15 +3,15 @@ import "./game.scss"
 import GameEl from "../GameEl/GameEl";
 
 export default function Game(props) {
-const [squares,setSquares] =useState( Array(9).fill("y"));
+// const [squares,setSquares] =useState( Array(9).fill("y"));
 
-function  handleClick(i) {
-	const squaresCopy = squares.slice();
-	console.log(squaresCopy);
-	squaresCopy[i] = 'X';
-	setSquares({squares: squaresCopy});
+// function  handleClick(i) {
+// 	const squaresCopy = squares.slice();
+// 	console.log(squaresCopy);
+// 	squaresCopy[i] = 'X';
+// 	setSquares({squares: squaresCopy});
 	
-}
+// }
 
 	return (
 		<div className="game">
