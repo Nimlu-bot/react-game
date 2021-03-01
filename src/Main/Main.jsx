@@ -4,7 +4,16 @@ import Game from '../GameField/GameField';
 import Buttons from '../Buttons/Buttons';
 import Audio from '../Audio/Audio';
 import Stat from '../Stat/Stat';
+import Win from '../Win/Win';
+import { HotKeys } from "react-hotkeys";
 
+const keyMap = {
+  LEFT: "left",
+  RIGTH: "rigth",
+	UP:"up",
+	DOWN:"down",
+	SELECT:"space"
+};
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +28,8 @@ export default class Main extends React.Component {
                 isNextX: (historyStor.length - 1) % 2 === 0,
                 stepNumber: historyStor.length - 1,
 								settings:false,
-								stat:false
+								stat:false,
+								win:false
             };
         } else {
             this.state = {
@@ -31,7 +41,9 @@ export default class Main extends React.Component {
                 isNextX: true,
                 stepNumber: 0,
 								settings:false,
-								stat:false
+								stat:false,
+								win:false
+
             };
         }
     }
@@ -41,9 +53,15 @@ export default class Main extends React.Component {
         const current = history[history.length - 1];
         const squares = current.squares.slice();
         
-        if (calculateWinner(squares) || squares[i]) {
+        if ( squares[i]) {
             return;
         }
+				if(calculateWinner(squares)){
+					this.setState({
+						win:true,
+					})
+					return
+				}
         squares[i] = this.state.isNextX ? 'X' : 'O';
         this.setState({
             history: history.concat([
@@ -169,7 +187,7 @@ this.game.current.requestFullscreen();
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
-				
+
         return (
             <div className='wrapper'>
                 <div   className='main'>
@@ -190,7 +208,9 @@ this.game.current.requestFullscreen();
 								onClose={()=>this.settings()}/>
 								<Stat show={this.state.stat}
 								onClose={()=>this.stat()}/>
+								{/* <Win show={this.end}								onClose={()=>this.win()}/> */}
             </div>
+				
         );
     }
 }

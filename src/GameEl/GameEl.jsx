@@ -1,9 +1,13 @@
-import React from 'react';
+import React,{useCallback} from 'react';
 import './gameEl.scss';
+import { HotKeys } from "react-hotkeys";
 
 
 export default function GameEl(props) {
+	
+	
     return (
+			
         <div className="el-container" onClick={props.onClick}>
             <div className="el" onClick={props.jmiak}>
                 <div className={`front ${props.text ? 'front__rotated' : ''}`}>
@@ -12,5 +16,6 @@ export default function GameEl(props) {
                 <div className={`back ${props.text ? 'back__rotated' : ''}`}>{props.text}</div>
             </div>
         </div>
+				
     );
 }
