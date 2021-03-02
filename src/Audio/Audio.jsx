@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
-//import click from '../assets/audio/click.mp3';
-import muz from '../assets/audio/bit.mp3';
+import React, { useState } from 'react';
 import AudioProc from './AudioProc';
 import Sound from './SoundProc';
 import './settings.scss';
 
 export default function Audio(props) {
-    const [play, setPlay] = useState(false);
     const [mute, setMute] = useState(false);
     const [muteSound, setMuteSound] = useState(false);
     const [volume, setVolume] = useState(1);
@@ -34,29 +31,9 @@ export default function Audio(props) {
         setPanSound(value);
         Sound.setPan(value);
     };
-    // useEffect(() => {
-    //     AudioProc.init();
-    //     //  Sound.init();
-    // }, []);
 
     return (
         <div className={`audio-wrapper ${props.show === true ? '' : 'hided'}`}>
-            {/* <audio controls src={`${muz}`} id='muz'></audio> */}
-            {/* <audio controls src={`${click}`} id="click"></audio> */}
-            {/* <button
-                className='btn btn-outline-primary btn-sm'
-                // onClick={() => {
-                //     if (!play) {
-                //         AudioProc.play('muz');
-                //         setPlay(true);
-                //     } else {
-                //         AudioProc.pause('muz');
-                //         setPlay(false);
-                //     }
-                // }}
-            >
-                play
-            </button> */}
             <div className='music-wrapper'>
                 <div className='music-title'>Music</div>
                 <button
@@ -163,12 +140,3 @@ export default function Audio(props) {
         </div>
     );
 }
-
-/*
-for example:
-AudioProcessor.play('bark');
-AudioProcessor.pause('bark');
-AudioProcessor.reset('bark');
-AudioProcessor.setVolume(number); [0, 2]
-AudioProcessor.setPan(number); [-1, 1]
- */

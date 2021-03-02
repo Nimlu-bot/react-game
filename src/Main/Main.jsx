@@ -83,7 +83,6 @@ export default class Main extends React.Component {
             localStorage.setItem('scores', JSON.stringify(scores));
         }
         if (key === 'draw') {
-            //setTimeout(() => this.win(), 500);
             const scoreStor = localStorage.getItem('scores')
                 ? JSON.parse(localStorage.getItem('scores'))
                 : Array(10).fill(null);
@@ -92,7 +91,6 @@ export default class Main extends React.Component {
                 scores.push({ winner: '-', turn: this.state.stepNumber });
                 localStorage.setItem('scores', JSON.stringify(scores));
                 this.winHandler();
-                // setTimeout(() => , 500);
             }
         }
     }
@@ -114,11 +112,11 @@ export default class Main extends React.Component {
         setTimeout(() => this.handleClick(0), 1000);
         setTimeout(() => this.handleClick(3), 2000);
         setTimeout(() => this.handleClick(1), 3000);
-        setTimeout(() => this.handleClick(4), 4000);
+        setTimeout(() => this.handleClick(8), 4000);
         setTimeout(() => this.handleClick(5), 5000);
         setTimeout(() => this.handleClick(2), 6000);
         setTimeout(() => this.handleClick(7), 7000);
-        setTimeout(() => this.handleClick(8), 8000);
+        setTimeout(() => this.handleClick(4), 8000);
         setTimeout(() => this.handleClick(6), 9000);
     }
     updateStatus() {
@@ -208,7 +206,6 @@ export default class Main extends React.Component {
                 </div>
                 <Audio show={this.state.settings} onClose={() => this.settings()} />
                 <Stat show={this.state.stat} onClose={() => this.stat()} />
-                {/* <Win show={this.state.win} message={this.state.message} /> */}
             </div>
         );
     }

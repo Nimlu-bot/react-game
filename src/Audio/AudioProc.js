@@ -4,10 +4,7 @@ class AudioProcessor {
         this.gainNode = this.audioContext.createGain();
         this.pannerOptions = { pan: 0 };
         this.panner = new StereoPannerNode(this.audioContext, this.pannerOptions);
-
-        // all sounds
         this.muz = this.createMediaElement(document.querySelector('#muz'));
-        // this.click = this.createMediaElement(document.querySelector('#click'));
 
         if (localStorage.getItem('volumeLevel')) {
             this.setVolume(+localStorage.getItem('volumeLevel'));

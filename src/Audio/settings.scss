@@ -17,30 +17,29 @@
     width: 20px;
 }
 
-.music-wrapper{
-	display: flex;
-	justify-content: center;
-align-items: center;
-margin-top: 10px;
-.music-title{
-	margin-right: 10px;
-	font-size: 24px;
+.music-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    .music-title {
+        margin-right: 10px;
+        font-size: 24px;
+    }
 }
+.volume-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.volume-container{
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.input-slider {
+    margin: 0 10px;
+    cursor: pointer;
 }
-.input-slider{
-	margin: 0 10px;
-	cursor: pointer;
+.hided {
+    visibility: hidden;
+    opacity: 0%;
 }
-.hided{
-	visibility: hidden;
-	opacity: 0%;
-}
-.text{
-	font-size: 1.5rem;
-	
+.text {
+    font-size: 1.5rem;
 }
