@@ -4,21 +4,11 @@ import Game from '../GameField/GameField';
 import Buttons from '../Buttons/Buttons';
 import Audio from '../Audio/Audio';
 import Stat from '../Stat/Stat';
-import Win from '../Win/Win';
-import { HotKeys } from "react-hotkeys";
-
-const keyMap = {
-  LEFT: "left",
-  RIGTH: "rigth",
-	UP:"up",
-	DOWN:"down",
-	SELECT:"space"
-};
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
-				this.game = React.createRef();
-				this.end=true;
+        this.game = React.createRef();
+        this.end = true;
         const historyStor = localStorage.getItem('currentTurn')
             ? JSON.parse(localStorage.getItem('currentTurn'))
             : null;
@@ -27,9 +17,9 @@ export default class Main extends React.Component {
                 history: historyStor,
                 isNextX: (historyStor.length - 1) % 2 === 0,
                 stepNumber: historyStor.length - 1,
-								settings:false,
-								stat:false,
-								win:false
+                settings: false,
+                stat: false,
+                win: false,
             };
         } else {
             this.state = {
@@ -40,10 +30,9 @@ export default class Main extends React.Component {
                 ],
                 isNextX: true,
                 stepNumber: 0,
-								settings:false,
-								stat:false,
-								win:false
-
+                settings: false,
+                stat: false,
+                win: false,
             };
         }
     }
@@ -52,16 +41,11 @@ export default class Main extends React.Component {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-        
-        if ( squares[i]) {
+
+        if (squares[i] || calculateWinner(squares)) {
             return;
         }
-				if(calculateWinner(squares)){
-					this.setState({
-						win:true,
-					})
-					return
-				}
+
         squares[i] = this.state.isNextX ? 'X' : 'O';
         this.setState({
             history: history.concat([
@@ -88,20 +72,18 @@ export default class Main extends React.Component {
             const scoreStor = localStorage.getItem('scores')
                 ? JSON.parse(localStorage.getItem('scores'))
                 : Array(10).fill(null);
-
-            if (1) {
-                if (this.state.stepNumber % 2 === 0) {
-                    const scores = scoreStor.slice(-9);
-                    scores.push({ winner: 'O', turn: this.state.stepNumber });
-                    localStorage.setItem('scores', JSON.stringify(scores));
-                } else {
-                    const scores = scoreStor.slice(-9);
-                    scores.push({ winner: 'X', turn: this.state.stepNumber });
-                    localStorage.setItem('scores', JSON.stringify(scores));
-                }
+            const scores = scoreStor.slice(-9);
+            if (this.state.stepNumber % 2 === 0) {
+                this.winHandler();
+                scores.push({ winner: 'O', turn: this.state.stepNumber });
+            } else {
+                this.winHandler();
+                scores.push({ winner: 'X', turn: this.state.stepNumber });
             }
+            localStorage.setItem('scores', JSON.stringify(scores));
         }
         if (key === 'draw') {
+            //setTimeout(() => this.win(), 500);
             const scoreStor = localStorage.getItem('scores')
                 ? JSON.parse(localStorage.getItem('scores'))
                 : Array(10).fill(null);
@@ -109,6 +91,8 @@ export default class Main extends React.Component {
                 const scores = scoreStor.slice(-9);
                 scores.push({ winner: '-', turn: this.state.stepNumber });
                 localStorage.setItem('scores', JSON.stringify(scores));
+                this.winHandler();
+                // setTimeout(() => , 500);
             }
         }
     }
@@ -122,7 +106,7 @@ export default class Main extends React.Component {
                 },
             ],
         });
-				this.end=false;
+        this.end = false;
     }
 
     autoPlay() {
@@ -145,44 +129,60 @@ export default class Main extends React.Component {
 
         if (winner) {
             status = 'Winner ' + winner;
-						if(!this.end){
-            this.updateLocal('score');
-					}
-						this.end=true;
+            if (!this.end) {
+                this.updateLocal('score');
+            }
+            this.end = true;
         } else {
             if (history.length < 10) {
                 status = 'Next move: ' + (this.state.isNextX ? 'X' : 'O');
             } else {
                 status = 'Draw';
-								if(!this.end){
-                this.updateLocal('draw');}
-								this.end=true;
+                if (!this.end) {
+                    this.updateLocal('draw');
+                }
+                this.end = true;
             }
         }
         this.updateLocal('currentTurn');
         return status;
     }
 
-		settings(){
-		this.setState(prevState => ({
-			settings: !prevState.settings
-		}))
-		}
-		stat(){
-			console.log("stat")
-			this.setState(prevState => ({
-				stat: !prevState.stat
-			}))
-			}
+    settings() {
+        this.setState((prevState) => ({
+            settings: !prevState.settings,
+        }));
+    }
+    stat() {
+        console.log('stat');
+        this.setState((prevState) => ({
+            stat: !prevState.stat,
+        }));
+    }
+    winHandler() {
+        setTimeout(
+            () =>
+                this.setState((prevState) => ({
+                    win: !prevState.win,
+                })),
+            0,
+        );
+        setTimeout(
+            () =>
+                this.setState((prevState) => ({
+                    win: !prevState.win,
+                })),
+            3000,
+        );
+    }
+    fullScrean() {
+        console.log(this.main);
+        this.game.current.requestFullscreen();
+    }
 
-		fullScrean(){
-			console.log(this.main)
-this.game.current.requestFullscreen();
-		}
-
-		componentDidMount(){
-			this.end=false;
-		}
+    componentDidMount() {
+        this.end = false;
+    }
 
     render() {
         const history = this.state.history;
@@ -190,27 +190,26 @@ this.game.current.requestFullscreen();
 
         return (
             <div className='wrapper'>
-                <div   className='main'>
-									<div ref={this.game} className ='game-field'>
-                    <div className='turn '> Turn {history.length - 1} </div>
-                    <Game  squares={current.squares} onClick={(i) => this.handleClick(i)} />
-                    <div className='status'>{this.updateStatus()}</div>
-										</div>
-                    <Buttons 
-										onReset={() => this.resetGame()}
-										onAuto={() => this.autoPlay()} 
-										onSettings={()=>this.settings()}
-										onFullScrean={()=>this.fullScrean()}
-										onStat={()=>this.stat()} 
-											/>
+                <div className='main'>
+                    <div ref={this.game} className='game-field'>
+                        <div className='turn '> Turn {history.length - 1} </div>
+                        <Game squares={current.squares} onClick={(i) => this.handleClick(i)} />
+                        <div className={`status ${this.state.win === true ? 'blinked' : ''}`}>
+                            {this.updateStatus()}
+                        </div>
+                    </div>
+                    <Buttons
+                        onReset={() => this.resetGame()}
+                        onAuto={() => this.autoPlay()}
+                        onSettings={() => this.settings()}
+                        onFullScrean={() => this.fullScrean()}
+                        onStat={() => this.stat()}
+                    />
                 </div>
-                <Audio show={this.state.settings}
-								onClose={()=>this.settings()}/>
-								<Stat show={this.state.stat}
-								onClose={()=>this.stat()}/>
-								{/* <Win show={this.end}								onClose={()=>this.win()}/> */}
+                <Audio show={this.state.settings} onClose={() => this.settings()} />
+                <Stat show={this.state.stat} onClose={() => this.stat()} />
+                {/* <Win show={this.state.win} message={this.state.message} /> */}
             </div>
-				
         );
     }
 }

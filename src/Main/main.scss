@@ -1,18 +1,22 @@
-
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/bootstrap';
 
 .wrapper {
     position: relative;
     flex: 1 0 auto;
 }
-// .main {
-//     flex: 1 0 auto;
-// }
-.turn, .status{
-	font-size: 24px;
-	margin-top: 10px;
-	color: $primary;
+
+.turn,
+.status {
+    font-size: 32px;
+    margin-top: 10px;
+    color: $primary;
 }
-.status-win{
-	font-size: 100px;
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+.blinked {
+    animation: blinker 0.5s linear infinite;
 }

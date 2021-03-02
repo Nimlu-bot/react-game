@@ -40,7 +40,7 @@ export default function Audio(props) {
     // }, []);
 
     return (
-        <div className={`audio-wrapper ${props.show===true ? '' :'hided' }`}>
+        <div className={`audio-wrapper ${props.show === true ? '' : 'hided'}`}>
             {/* <audio controls src={`${muz}`} id='muz'></audio> */}
             {/* <audio controls src={`${click}`} id="click"></audio> */}
             {/* <button
@@ -57,22 +57,23 @@ export default function Audio(props) {
             >
                 play
             </button> */}
-						<div className='music-wrapper'>
-            <div className='music-title'>Music</div>
-            <button
-                className='btn btn-outline-primary btn-sm'
-                onClick={() => {
-                    if (!mute) {
-                        AudioProc.setVolume(0);
-                        setMute(true);
-                    } else {
-                        AudioProc.setVolume(1);
-                        setMute(false);
-                    }
-                }}
-            ><i className={`bi ${!mute ? 'bi-volume-mute-fill' : 'bi-volume-down-fill'}`}></i> 
-            </button>
-						</div>
+            <div className='music-wrapper'>
+                <div className='music-title'>Music</div>
+                <button
+                    className='btn btn-outline-primary btn-sm'
+                    onClick={() => {
+                        if (!mute) {
+                            AudioProc.setVolume(0);
+                            setMute(true);
+                        } else {
+                            AudioProc.setVolume(1);
+                            setMute(false);
+                        }
+                    }}
+                >
+                    <i className={`bi ${!mute ? 'bi-volume-mute-fill' : 'bi-volume-down-fill'}`}></i>
+                </button>
+            </div>
             <div className='audio-container'>
                 <div className='volume-container'>
                     <div className='text'>-</div>
@@ -86,7 +87,7 @@ export default function Audio(props) {
                         className='input-slider'
                         onChange={changeVolume}
                     />
-										<div className='text'>+</div>
+                    <div className='text'>+</div>
                 </div>
 
                 <div className='panner-container'>
@@ -104,24 +105,24 @@ export default function Audio(props) {
                     <span className='text'>R</span>
                 </div>
             </div>
-						<div className='music-wrapper'>
-						<div className='music-title'>Sound</div>
-						<button
-                        className='btn btn-outline-primary btn-sm'
-                        onClick={() => {
-                            if (!muteSound) {
-                                Sound.setVolume(0);
-                                setMuteSound(true);
-                            } else {
-                                Sound.setVolume(1);
-                                setMuteSound(false);
-                            }
-                        }}
-                    ><i className={`bi ${!muteSound ? 'bi-volume-mute-fill' : 'bi-volume-down-fill'}`}></i> 
-                    </button>
-						</div>
+            <div className='music-wrapper'>
+                <div className='music-title'>Sound</div>
+                <button
+                    className='btn btn-outline-primary btn-sm'
+                    onClick={() => {
+                        if (!muteSound) {
+                            Sound.setVolume(0);
+                            setMuteSound(true);
+                        } else {
+                            Sound.setVolume(1);
+                            setMuteSound(false);
+                        }
+                    }}
+                >
+                    <i className={`bi ${!muteSound ? 'bi-volume-mute-fill' : 'bi-volume-down-fill'}`}></i>
+                </button>
+            </div>
             <div className='audio-container'>
-                
                 <div className='volume-container'>
                     <div className='text'>-</div>
                     <input
@@ -134,7 +135,7 @@ export default function Audio(props) {
                         className='input-slider'
                         onChange={changeVolumeSound}
                     />
-										 <div className='text'>+</div>
+                    <div className='text'>+</div>
                 </div>
                 <div className='panner-container'>
                     <span className='text'>L</span>
@@ -151,10 +152,14 @@ export default function Audio(props) {
                     <span className='text'>R</span>
                 </div>
             </div>
-						<button 
-						className='btn btn-outline-primary btn-sm'
-						onClick={()=>{props.onClose()}}
-						>close</button>
+            <button
+                className='btn btn-outline-primary btn-sm'
+                onClick={() => {
+                    props.onClose();
+                }}
+            >
+                close
+            </button>
         </div>
     );
 }
