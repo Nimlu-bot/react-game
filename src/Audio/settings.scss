@@ -1,0 +1,45 @@
+.audio-wrapper {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+}
+#muz {
+    display: none;
+}
+.mute {
+    height: 20px;
+    width: 20px;
+}
+
+.music-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    .music-title {
+        margin-right: 10px;
+        font-size: 24px;
+    }
+}
+.volume-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input-slider {
+    margin: 0 10px;
+    cursor: pointer;
+}
+.hided {
+    visibility: hidden;
+    opacity: 0%;
+}
+.text {
+    font-size: 1.5rem;
+}

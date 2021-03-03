@@ -1,0 +1,54 @@
+$color-element: rgb(13, 160, 20);
+@import '~bootstrap/scss/bootstrap';
+
+.el-container {
+    display: inline-block;
+    margin: 0 auto;
+    perspective: 900px;
+    text-align: center;
+}
+.el {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    transition: all 0.6s ease;
+    transform-style: preserve-3d;
+    &:hover {
+        transform: scale(0.9);
+    }
+    cursor: pointer;
+}
+.front,
+.back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 160px;
+    height: 160px;
+    border-radius: 5px;
+    color: white;
+    transition: all 0.6s ease;
+    transform-style: preserve-3d;
+    font-size: 100px;
+    backface-visibility: hidden;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
+}
+.back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotateY(180deg);
+    background: $blue-600;
+}
+.front {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $warning;
+}
+.front__rotated {
+    transform: rotateY(180deg);
+}
+.back__rotated {
+    transform: rotateY(360deg);
+}

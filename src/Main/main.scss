@@ -1,0 +1,22 @@
+@import '~bootstrap/scss/bootstrap';
+
+.wrapper {
+    position: relative;
+    flex: 1 0 auto;
+}
+
+.turn,
+.status {
+    font-size: 32px;
+    margin-top: 10px;
+    color: $primary;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+.blinked {
+    animation: blinker 0.5s linear infinite;
+}
