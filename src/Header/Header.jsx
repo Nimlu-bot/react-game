@@ -5,9 +5,11 @@ import muz from '../assets/audio/bit.mp3';
 
 export default function Header() {
     const [play, setPlay] = useState(false);
+
     useEffect(() => {
         AudioProc.init();
     }, []);
+
     return (
         <div className='nav'>
             <audio controls src={`${muz}`} id='muz'></audio>

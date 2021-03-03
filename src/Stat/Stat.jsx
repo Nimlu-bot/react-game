@@ -3,8 +3,8 @@ import './stat.scss';
 
 export default function Stat(props) {
     const score = localStorage.getItem('scores') ? JSON.parse(localStorage.getItem('scores')) : [];
-
     const rezult = score.filter((el, idx) => el !== null);
+
     return (
         <ul className={`stat-wrapper ${props.show === true ? '' : 'hided'}`}>
             {rezult.map((el, idx) => {
@@ -22,7 +22,7 @@ export default function Stat(props) {
                     props.onClose();
                 }}
             >
-                close
+                Close
             </button>
         </ul>
     );

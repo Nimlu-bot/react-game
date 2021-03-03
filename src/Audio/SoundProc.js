@@ -9,13 +9,16 @@ class SoundProcessor {
         if (localStorage.getItem('volumeLevel')) {
             this.setVolume(+localStorage.getItem('volumeLevel'));
         }
+
         if (localStorage.getItem('panLevel')) {
             this.setPan(+localStorage.getItem('panLevel'));
         }
+
     }
 
     createMediaElement(tagAudio) {
         const audioWithEffects = this.audioContext.createMediaElementSource(tagAudio);
+
         audioWithEffects.connect(this.gainNode).connect(this.panner).connect(this.audioContext.destination);
         return audioWithEffects;
     }
@@ -25,24 +28,31 @@ class SoundProcessor {
     }
 
     play(name) {
+
         if (this.audioContext.state === 'suspended') {
             this.audioContext.resume();
         }
+
         if (this[name] && this[name].mediaElement) {
             this[name].mediaElement.play();
         }
+
     }
 
     pause(name) {
+
         if (this[name] && this[name].mediaElement) {
             this[name].mediaElement.pause();
         }
+
     }
 
     reset(name) {
+
         if (this[name] && this[name].mediaElement) {
             this[name].mediaElement.currentTime = 0;
         }
+				
     }
 
     setVolume(volume) {

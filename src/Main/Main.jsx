@@ -12,6 +12,7 @@ export default class Main extends React.Component {
         const historyStor = localStorage.getItem('currentTurn')
             ? JSON.parse(localStorage.getItem('currentTurn'))
             : null;
+
         if (historyStor) {
             this.state = {
                 history: historyStor,
@@ -64,10 +65,12 @@ export default class Main extends React.Component {
             isNextX: step % 2 === 0,
         });
     }
+
     updateLocal(key) {
         if (key === 'currentTurn') {
             localStorage.setItem('currentTurn', JSON.stringify(this.state.history));
         }
+
         if (key === 'score') {
             const scoreStor = localStorage.getItem('scores')
                 ? JSON.parse(localStorage.getItem('scores'))
@@ -82,6 +85,7 @@ export default class Main extends React.Component {
             }
             localStorage.setItem('scores', JSON.stringify(scores));
         }
+
         if (key === 'draw') {
             const scoreStor = localStorage.getItem('scores')
                 ? JSON.parse(localStorage.getItem('scores'))
@@ -119,6 +123,7 @@ export default class Main extends React.Component {
         setTimeout(() => this.handleClick(4), 8000);
         setTimeout(() => this.handleClick(6), 9000);
     }
+
     updateStatus() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
@@ -142,6 +147,7 @@ export default class Main extends React.Component {
                 this.end = true;
             }
         }
+
         this.updateLocal('currentTurn');
         return status;
     }
@@ -151,12 +157,13 @@ export default class Main extends React.Component {
             settings: !prevState.settings,
         }));
     }
+
     stat() {
-        console.log('stat');
         this.setState((prevState) => ({
             stat: !prevState.stat,
         }));
     }
+
     winHandler() {
         setTimeout(
             () =>
@@ -173,8 +180,8 @@ export default class Main extends React.Component {
             3000,
         );
     }
+
     fullScrean() {
-        console.log(this.main);
         this.game.current.requestFullscreen();
     }
 
@@ -222,11 +229,14 @@ function calculateWinner(squares) {
         [0, 4, 8],
         [2, 4, 6],
     ];
+
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
+
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
             return squares[a];
         }
     }
+
     return null;
 }
